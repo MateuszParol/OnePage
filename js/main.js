@@ -18,6 +18,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // 1.5 Logo Click (Powrót na górę)
+    const logo = document.querySelector('.logo');
+    if (logo) {
+        logo.addEventListener('click', () => {
+            if (smoother) {
+                smoother.scrollTo(0, true);
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    }
+
     // 2. Animacja Wejściowa (Hero)
     const tlHero = gsap.timeline({ defaults: { ease: "power4.out" } });
     
@@ -162,7 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "--color-text": "#283618",
         "--color-accent-1": "#606c38",
         "--color-accent-2": "#dda15e",
-        "--color-accent-3": "#bc6c25",
+        "--color-accent-3": "#221307", /* Poprzednio: #bc6c25 */
+        "--color-ambient-2": "#bc6c25",
         "--color-body-text": "#606c38",
         "--color-bg-glass": "rgba(254, 250, 224, 0.7)"
     };
@@ -173,6 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "--color-accent-1": "#778da9",
         "--color-accent-2": "#415a77",
         "--color-accent-3": "#778da9", /* Jasny kolor do stopki (zamiast granatowego) */
+        "--color-ambient-2": "#778da9",
         "--color-body-text": "#e0e1dd", /* Najjaśniejszy kolor dla akapitów <p> dla super czytelności */
         "--color-bg-glass": "rgba(27, 38, 59, 0.7)"
     };
@@ -229,5 +243,61 @@ document.addEventListener("DOMContentLoaded", () => {
             if (smoother) smoother.paused(false);
         });
     });
+
+    // 8. Opcje Dostępności (WCAG)
+    const btnLargeText = document.getElementById('btn-large-text');
+    const btnColorblind = document.getElementById('btn-colorblind');
+
+    // Inicjalizacja zapisanych stanów
+    if (localStorage.getItem('a11y-large-text') === 'true') {
+        rootEl.classList.add('a11y-large-text');
+        if (btnLargeText) btnLargeText.classList.add('active');
+    }
+    
+    if (localStorage.getItem('a11y-colorblind') === 'true') {
+        rootEl.classList.add('a11y-colorblind');
+        if (btnColorblind) btnColorblind.classList.add('active');
+    }
+
+    if (btnLargeText) {
+        btnLargeText.addEventListener('click', () => {
+            const isActive = rootEl.classList.toggle('a11y-large-text');
+            btnLargeText.classList.toggle('active', isActive);
+            localStorage.setItem('a11y-large-text', isActive);
+            
+            // Wymuszamy aktualizację ScrollSmoother po zmianie rozmiarów tekstów
+            if (smoother) {
+                setTimeout(() => ScrollTrigger.refresh(), 100);
+            }
+        });
+    }
+
+    if (btnColorblind) {
+        btnColorblind.addEventListener('click', () => {
+            // Funkcja aplikująca motyw (współgra z View Transitions API)
+            const toggleColorblind = () => {
+                const isActive = rootEl.classList.toggle('a11y-colorblind');
+                btnColorblind.classList.toggle('active', isActive);
+                localStorage.setItem('a11y-colorblind', isActive);
+            };
+
+            if (!document.startViewTransition) {
+                toggleColorblind();
+                return;
+            }
+
+            // Płynne "rozlewanie" kolorów przy pomocy maski
+            rootEl.classList.add('is-animating-theme');
+            document.body.style.overflow = 'hidden';
+            if (smoother) smoother.paused(true);
+
+            const transition = document.startViewTransition(toggleColorblind);
+            transition.finished.then(() => {
+                rootEl.classList.remove('is-animating-theme');
+                document.body.style.overflow = '';
+                if (smoother) smoother.paused(false);
+            });
+        });
+    }
 
 });
