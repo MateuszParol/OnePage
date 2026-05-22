@@ -1,0 +1,260 @@
+:root {
+    /* Oryginalna Paleta Kolorystyczna Użytkownika */
+    --color-bg: #fefae0;
+    --color-text: #283618;
+    --color-accent-1: #606c38;
+    --color-accent-2: #dda15e;
+    --color-accent-3: #bc6c25;
+    
+    /* Zmienne pomocnicze dla efektów */
+    --color-body-text: var(--color-accent-1);
+    --color-bg-glass: rgba(254, 250, 224, 0.7);
+    --gradient-accent: linear-gradient(135deg, var(--color-accent-1), var(--color-accent-2));
+    
+    /* Typografia */
+    --font-heading: 'Epilogue', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    
+    /* Spacing & Layout */
+    --container-width: 1280px;
+    --spacing-section: 15vh;
+}
+
+/* Reset & Base Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-family: var(--font-heading); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; color: var(--color-text); }
+p { font-size: 1.125rem; font-weight: 500; margin-bottom: 2rem; color: var(--color-body-text); max-width: 600px; }
+
+/* Utilities */
+.text-center { text-align: center; }
+.text-center p { margin-left: auto; margin-right: auto; }
+
+/* Gradient Accent Text */
+.accent-gradient {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Ambient Light Leaks */
+.ambient-light {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.4;
+}
+.light-1 {
+    top: -10vh; right: -10vw;
+    width: 50vw; height: 50vw;
+    background: var(--color-accent-2);
+}
+.light-2 {
+    bottom: -10vh; left: -10vw;
+    width: 60vw; height: 60vw;
+    background: var(--color-accent-3);
+    opacity: 0.2;
+}
+
+/* Layout */
+.container { max-width: var(--container-width); margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+.section { padding: var(--spacing-section) 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+
+/* Buttons */
+.btn-wrapper { display: inline-block; perspective: 1000px; }
+.btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 1rem 2.5rem; text-decoration: none; font-weight: 600; font-family: var(--font-heading);
+    border-radius: 50px; overflow: hidden; position: relative;
+    /* Brak transition: transform! Będziemy to obsługiwać przez JS/GSAP */
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.btn-primary {
+    background: var(--color-text); color: var(--color-bg); border: none;
+}
+.btn-primary:hover { background: var(--color-accent-1); box-shadow: 0 10px 30px rgba(40, 54, 24, 0.2); }
+
+/* Header & Hamburger */
+.site-header {
+    position: fixed; top: 0; left: 0; width: 100%; padding: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 100; pointer-events: none;
+}
+.logo { font-size: 2rem; font-weight: 800; font-family: var(--font-heading); letter-spacing: -0.05em; pointer-events: auto; cursor: default; color: var(--color-text); }
+.header-actions {
+    display: flex; gap: 1rem; align-items: center; pointer-events: auto;
+}
+.theme-toggle {
+    background: var(--color-bg-glass); border: 1px solid rgba(40, 54, 24, 0.1);
+    border-radius: 50%; width: 60px; height: 60px;
+    cursor: pointer; display: flex; justify-content: center; align-items: center;
+    z-index: 101; backdrop-filter: blur(10px);
+}
+.theme-icon {
+    width: 20px; height: 20px; border-radius: 50%;
+    box-shadow: inset 20px 20px 0 0 var(--color-text);
+    transition: box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+html.is-dark .theme-icon {
+    box-shadow: inset -6px -6px 0 0 var(--color-text);
+    transform: rotate(20deg) scale(1.1);
+}
+.hamburger {
+    background: var(--color-bg-glass); border: 1px solid rgba(40, 54, 24, 0.1);
+    border-radius: 50%; width: 60px; height: 60px;
+    cursor: pointer; display: flex; justify-content: center; align-items: center;
+    z-index: 101; backdrop-filter: blur(10px);
+}
+.hamburger-box { display: flex; flex-direction: column; gap: 5px; width: 24px; position: relative; }
+.hamburger .line { width: 100%; height: 2px; background-color: var(--color-text); display: block; }
+
+/* Nav Overlay */
+.nav-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 99; visibility: hidden; pointer-events: none;
+}
+.nav-background {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--color-text); /* Ciemne tło dla kontrastu w menu */
+    clip-path: circle(0% at 100% 0);
+}
+.nav-links { list-style: none; text-align: center; position: relative; z-index: 1; pointer-events: auto; }
+.nav-link-wrapper { overflow: hidden; margin: 1rem 0; }
+.nav-link {
+    color: var(--color-bg); text-decoration: none; font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 800; font-family: var(--font-heading); letter-spacing: -0.02em;
+    display: block; transition: color 0.3s;
+}
+.nav-link:hover { color: var(--color-accent-2); }
+.nav-footer { position: absolute; bottom: 2rem; width: 100%; text-align: center; z-index: 1; pointer-events: auto; opacity: 0; color: var(--color-bg); }
+
+/* Hero Section */
+.title-line { overflow: hidden; }
+.title-text { display: inline-block; font-size: clamp(3.5rem, 9vw, 8rem); letter-spacing: -0.04em; color: var(--color-text); }
+
+/* Glass Panels */
+.glass-panel {
+    background: var(--color-bg-glass); backdrop-filter: blur(16px);
+    border: 1px solid rgba(40, 54, 24, 0.05); /* Bardzo subtelne, ciemne obramowanie zamiast białego */
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+
+/* About Section */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.parallax-container { height: 600px; overflow: hidden; position: relative; border-radius: 30px; }
+.parallax-img {
+    width: 100%; height: 130%; position: absolute; top: -15%;
+    background: linear-gradient(220deg, var(--color-accent-2), var(--color-accent-3));
+}
+
+/* Bento Portfolio */
+.bento-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; grid-auto-rows: 300px;
+}
+.bento-item {
+    position: relative; overflow: hidden; border-radius: 24px; padding: 2rem;
+    display: flex; align-items: flex-end;
+}
+.bento-large { grid-column: span 2; grid-row: span 2; height: 100%; }
+.bento-wide { grid-column: span 3; height: 100%; }
+.bento-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.8;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s;
+}
+.bento-item:hover .bento-bg { transform: scale(1.05); opacity: 1; }
+.bento-content { position: relative; z-index: 1; pointer-events: none; background: var(--color-bg-glass); padding: 1.5rem; border-radius: 16px; backdrop-filter: blur(10px); width: 100%; }
+.bento-content h3 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--color-text); }
+.bento-content p { margin-bottom: 0; font-size: 1rem; color: var(--color-accent-1); }
+
+/* Contact */
+.contact-box { padding: 5rem 2rem; }
+
+/* Footer */
+.site-footer { 
+    background-color: var(--color-accent-3); /* Brązowy z palety */
+    padding: 4rem 0 3rem; 
+    text-align: center; 
+    position: relative;
+    margin-top: 6rem;
+}
+.footer-shape {
+    position: absolute;
+    bottom: calc(100% - 1px); /* Nakłada się o 1 piksel, eliminuje białą linię błędu renderowania */
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+@keyframes blobBreathe {
+    0%, 100% { transform: scaleX(1) scaleY(1) translateX(0); }
+    50% { transform: scaleX(1.05) scaleY(1.2) translateX(-2%); }
+}
+
+.footer-shape svg {
+    display: block;
+    width: 110%; /* Zapas po bokach dla animacji */
+    margin-left: -5%; /* Wyśrodkowanie szerszego SVG */
+    height: 45px; /* Delikatna wysokość plamy */
+    transform-origin: bottom center; /* Skaluje się w górę, dół zostaje przyklejony */
+    animation: blobBreathe 8s ease-in-out infinite; /* Powolna, płynna animacja */
+}
+.footer-shape .shape-fill {
+    fill: var(--color-accent-3);
+}
+.site-footer h2 { color: var(--color-bg); position: relative; z-index: 1; }
+.site-footer p { color: rgba(254, 250, 224, 0.8); position: relative; z-index: 1; margin: 0 auto; }
+
+@media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-large, .bento-wide { grid-column: span 1; grid-row: span 1; }
+    .parallax-container { height: 400px; }
+}
+
+/* View Transitions (Native Liquid Pour Effect) */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+html.is-animating-theme::view-transition-old(root) {
+    z-index: 1;
+}
+
+html.is-animating-theme::view-transition-new(root) {
+    z-index: 2;
+    /* Wydłużony czas, by środkowe spowolnienie było dobrze widoczne i organiczne */
+    animation: pourTheme 1.8s ease-in-out both;
+}
+
+@keyframes pourTheme {
+    0% {
+        clip-path: circle(0% at 50% -10%);
+    }
+    30% {
+        /* Szybki start (wylewa się dużo) */
+        clip-path: circle(50% at 50% -10%);
+    }
+    70% {
+        /* Spowolnienie w środku (zwalnia, rośnie niewiele) */
+        clip-path: circle(70% at 50% -10%);
+    }
+    100% {
+        /* Szybki koniec (zalewa resztę ekranu) */
+        clip-path: circle(150% at 50% -10%);
+    }
+}
