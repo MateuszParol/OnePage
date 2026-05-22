@@ -99,7 +99,11 @@ p { font-size: 1.125rem; font-weight: 500; margin-bottom: 2rem; color: var(--col
     text-decoration: none;
     z-index: 9999; /* Przykrywa wszystko na co najedzie */
     display: inline-flex;
-    padding: 1rem 1.5rem;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 140px;
+    padding: 0;
 }
 .logo-bg {
     position: absolute;
@@ -113,24 +117,23 @@ p { font-size: 1.125rem; font-weight: 500; margin-bottom: 2rem; color: var(--col
     background: var(--color-bg-glass);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border-radius: 50px;
-    border: 1px solid rgba(120, 120, 120, 0.1);
+    border-radius: 50%;
 }
 .bubble-small {
     position: absolute;
-    bottom: -6px;
-    right: 25px;
-    width: 16px;
-    height: 16px;
+    bottom: -5px;
+    right: -10px;
+    width: 45px;
+    height: 45px;
     background: var(--color-bg-glass);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-radius: 50%;
-    border: 1px solid rgba(120, 120, 120, 0.1);
 }
 .logo-content {
     display: flex;
     flex-direction: column;
+    align-items: center;
     position: relative;
     z-index: 1;
 }
@@ -149,9 +152,9 @@ p { font-size: 1.125rem; font-weight: 500; margin-bottom: 2rem; color: var(--col
     color: var(--color-accent-1);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    text-align: right;
+    align-self: flex-end;
     margin-top: 4px;
-    margin-right: -10px; /* lekko przesuniety w prawo wzgledem Studio */
+    margin-right: 15px; /* lekko przesuniety w prawo wzgledem krawedzi napisu Studio */
 }
 .header-actions {
     display: flex; gap: 1rem; align-items: center; pointer-events: auto;
