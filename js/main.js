@@ -214,10 +214,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Aktywacja natywnego, płynnego wlewania (screenshot DOM)
         rootEl.classList.add('is-animating-theme');
+        
+        // Zablokuj scrollowanie na czas animacji (natywnie + w ScrollSmoother)
+        document.body.style.overflow = 'hidden';
+        if (smoother) smoother.paused(true);
+
         const transition = document.startViewTransition(applyTheme);
         
         transition.finished.then(() => {
             rootEl.classList.remove('is-animating-theme');
+            
+            // Odblokuj scrollowanie
+            document.body.style.overflow = '';
+            if (smoother) smoother.paused(false);
         });
     });
 
