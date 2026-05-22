@@ -239,24 +239,24 @@ html.a11y-large-text {
 
 /* Tryb dla daltonistów (High Contrast Monochromatic + Safe Blue) */
 html.a11y-colorblind {
-    --color-bg: #ffffff;
-    --color-text: #000000;
-    --color-accent-1: #000000;
-    --color-accent-2: #0055ff; /* Bezpieczny niebieski dla linków/akcentów */
-    --color-accent-3: #111111; /* Bardzo ciemny szary dla stopek i teł */
-    --color-ambient-2: #0055ff; /* Niebieski glow */
-    --color-body-text: #000000;
-    --color-bg-glass: rgba(255, 255, 255, 0.9);
+    --color-bg: #ffffff !important;
+    --color-text: #000000 !important;
+    --color-accent-1: #000000 !important;
+    --color-accent-2: #0055ff !important; /* Bezpieczny niebieski dla linków/akcentów */
+    --color-accent-3: #111111 !important; /* Bardzo ciemny szary dla stopek i teł */
+    --color-ambient-2: #0055ff !important; /* Niebieski glow */
+    --color-body-text: #000000 !important;
+    --color-bg-glass: rgba(255, 255, 255, 0.9) !important;
 }
 html.a11y-colorblind.is-dark {
-    --color-bg: #000000;
-    --color-text: #ffffff;
-    --color-accent-1: #ffffff;
-    --color-accent-2: #00aaff; /* Jasny niebieski dla kontrastu w czerni */
-    --color-accent-3: #222222;
-    --color-ambient-2: #00aaff;
-    --color-body-text: #ffffff;
-    --color-bg-glass: rgba(0, 0, 0, 0.9);
+    --color-bg: #000000 !important;
+    --color-text: #ffffff !important;
+    --color-accent-1: #ffffff !important;
+    --color-accent-2: #00aaff !important; /* Jasny niebieski dla kontrastu w czerni */
+    --color-accent-3: #222222 !important;
+    --color-ambient-2: #00aaff !important;
+    --color-body-text: #ffffff !important;
+    --color-bg-glass: rgba(0, 0, 0, 0.9) !important;
 }
 
 @media (max-width: 900px) {
