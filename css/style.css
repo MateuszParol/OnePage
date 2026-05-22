@@ -92,7 +92,67 @@ p { font-size: 1.125rem; font-weight: 500; margin-bottom: 2rem; color: var(--col
     display: flex; justify-content: space-between; align-items: center;
     z-index: 100; pointer-events: none;
 }
-.logo { font-size: 2rem; font-weight: 800; font-family: var(--font-heading); letter-spacing: -0.05em; pointer-events: auto; cursor: pointer; color: var(--color-text); text-decoration: none; }
+.logo {
+    position: relative;
+    pointer-events: auto;
+    cursor: pointer;
+    text-decoration: none;
+    z-index: 9999; /* Przykrywa wszystko na co najedzie */
+    display: inline-flex;
+    padding: 1rem 1.5rem;
+}
+.logo-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.05));
+}
+.bubble-large {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--color-bg-glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 50px;
+    border: 1px solid rgba(120, 120, 120, 0.1);
+}
+.bubble-small {
+    position: absolute;
+    bottom: -6px;
+    right: 25px;
+    width: 16px;
+    height: 16px;
+    background: var(--color-bg-glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 50%;
+    border: 1px solid rgba(120, 120, 120, 0.1);
+}
+.logo-content {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+.logo-main {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    letter-spacing: -0.05em;
+    color: var(--color-text);
+    line-height: 1;
+}
+.logo-sub {
+    font-size: 0.65rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+    color: var(--color-accent-1);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: right;
+    margin-top: 4px;
+    margin-right: -10px; /* lekko przesuniety w prawo wzgledem Studio */
+}
 .header-actions {
     display: flex; gap: 1rem; align-items: center; pointer-events: auto;
 }
@@ -257,6 +317,13 @@ html.a11y-colorblind.is-dark {
     --color-ambient-2: #00aaff !important;
     --color-body-text: #ffffff !important;
     --color-bg-glass: rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Globalny filtr dla przyszłych zdjęć/wideo/mockupów, aby ich barwy nie zlewały się i nie psuły kontrastu */
+html.a11y-colorblind img,
+html.a11y-colorblind video,
+html.a11y-colorblind .bento-bg {
+    filter: grayscale(100%) contrast(120%) !important;
 }
 
 @media (max-width: 900px) {
