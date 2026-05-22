@@ -300,43 +300,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 9. Modal Kontaktowy
+    // 9. Contact Box (Inline Flip)
     const contactBtn = document.getElementById('contact-btn');
-    const contactModal = document.getElementById('contact-modal');
-    const closeModalBtn = document.getElementById('close-modal');
+    const contactBox = document.getElementById('contact-box');
+    const closeContactBtn = document.getElementById('close-contact-btn');
 
-    if (contactBtn && contactModal && closeModalBtn) {
-        const toggleModal = (show) => {
-            if (show) {
-                contactModal.classList.add('active');
-                if (smoother) smoother.paused(true); // Blokada scrolla w tle
-            } else {
-                contactModal.classList.remove('active');
-                if (smoother) smoother.paused(false);
-            }
-        };
-
+    if (contactBtn && contactBox && closeContactBtn) {
         contactBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            toggleModal(true);
+            contactBox.classList.add('is-flipped');
+            // Zaktualizuj ScrollTrigger po krótkim opóźnieniu, gdyby zmieniła się wysokość
+            setTimeout(() => { if (ScrollTrigger) ScrollTrigger.refresh(); }, 500);
         });
 
-        closeModalBtn.addEventListener('click', () => {
-            toggleModal(false);
-        });
-
-        // Zamknij klikając w ciemne tło poza modalem
-        contactModal.addEventListener('click', (e) => {
-            if (e.target === contactModal) {
-                toggleModal(false);
-            }
-        });
-
-        // Zamknij używając klawisza ESC (WCAG)
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && contactModal.classList.contains('active')) {
-                toggleModal(false);
-            }
+        closeContactBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            contactBox.classList.remove('is-flipped');
+            setTimeout(() => { if (ScrollTrigger) ScrollTrigger.refresh(); }, 500);
         });
     }
 
